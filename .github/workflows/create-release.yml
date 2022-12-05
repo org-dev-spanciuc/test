@@ -1,0 +1,47 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (eg: 1.0.0)'
+        required: true
+        type: string
+      next-version:
+        description: 'Next version (eg: 1.0.1-SNAPSHOT)'
+        required: false
+        type: string
+
+jobs:
+
+  prepare-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create Branch
+        run: |
+          git switch -c release-${{ inputs.version }}
+          git push -u origin release-${{ inputs.version }}
+          git switch main
+
+  perform-release:
+    needs: prepare-release
+    uses: ./.github/workflows/perform-release.yml
+    with:
+      version: ${{ inputs.version }}
+      next-version: ${{ inputs.next-version }}
+    secrets: inherit
+
+  merge:
+    needs: [perform-release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create --base main --head release-${{ inputs.version }} \
+          --title "Merge release-${{ inputs.version }} into main" \
+          --body "Created and published release v${{ inputs.version }}"
+            
