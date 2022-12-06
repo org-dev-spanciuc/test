@@ -44,6 +44,4 @@ jobs:
           gh pr create --base main --head release-${{ inputs.version }} \
           --title "Merge release-${{ inputs.version }} into main" \
           --body "Created and published release v${{ inputs.version }}"
-          gh pr ready release-${{ inputs.version }}
-          gh pr merge --auto --delete-branch --merge release-${{ inputs.version }}
             
