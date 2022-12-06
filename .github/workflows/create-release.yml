@@ -32,7 +32,7 @@ jobs:
       next-version: ${{ inputs.next-version }}
     secrets: inherit
 
-  pull-request:
+  merge:
     needs: [perform-release]
     runs-on: ubuntu-latest
     steps:
