@@ -5,14 +5,14 @@
     <groupId>test</groupId>
     <artifactId>test-project</artifactId>
     <packaging>jar</packaging>
-    <version>6.0.0</version>
+    <version>6.0.1-SNAPSHOT</version>
     <name>Test maven project</name>
     <url>https://github.com/org-dev-spanciuc/test.git</url>
     <scm>
         <url>${project.url}</url>
         <connection>scm:git:${project.url}</connection>
         <developerConnection>scm:git:${project.url}</developerConnection>
-    <tag>v6.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
     <distributionManagement>
         <repository>
