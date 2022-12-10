@@ -23,7 +23,6 @@ jobs:
         run: |
           git switch -c release-${{ inputs.version }}
           git push -u origin release-${{ inputs.version }}
-          git switch main
 
   perform-release:
     name: Perform Release
