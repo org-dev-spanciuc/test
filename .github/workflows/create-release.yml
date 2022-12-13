@@ -28,7 +28,7 @@ jobs:
     needs: prepare-release
     uses: ./.github/workflows/perform-release.yml
     with:
-      version: ${{ needs.resolve-version.outputs.version }}
+      version: ${{ needs.prepare-release.outputs.version }}
     secrets: inherit
 
   update-docs:
