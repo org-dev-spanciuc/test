@@ -15,7 +15,8 @@ jobs:
       - name: Resolve Version
         id: resolve-version
         run: |
-          export VERSION=$(mvn help:evaluate -Dexpression='project.version' -q -DforceStdout)
+          version=$(mvn help:evaluate -Dexpression='project.version' -q -DforceStdout)
+          export VERSION=${version:0:${#version} - 9}
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
       - name: Create Branch
         run: |
