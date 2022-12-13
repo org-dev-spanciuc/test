@@ -45,9 +45,3 @@ jobs:
         run: |
           mvn -B release:prepare -DreleaseVersion='${{ inputs.version }}' \
           -DdevelopmentVersion='${{ inputs.next-version }}' release:perform
-      - name: Github Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create v${{ inputs.version }} --latest \
-          --title 'Release v${{ inputs.version }}' --generate-notes \
