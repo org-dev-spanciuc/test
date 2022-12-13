@@ -19,10 +19,8 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
       - name: Create Branch
         run: |
-          echo "IN STEP: ${VERSION}"
-          echo "resolved version: ${{ steps.resolve-version.outputs.version }}"
-          git switch -c release-${{ steps.set_outputs.outputs.version }}
-          git push -u origin release-${{ steps.set_outputs.outputs.version }}
+          git switch -c release-${{ steps.resolve-version.outputs.version }}
+          git push -u origin release-${{ steps.resolve-version.outputs.version }}
 
   perform-release:
     name: Perform Release
