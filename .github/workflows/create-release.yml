@@ -13,9 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Resolve Version
+        id: resolve-version
         run: |
           echo "::set-output name=version::1000"
-          echo "resolved version: ${{ steps.set_outputs.outputs.version }}"
+          echo "resolved version: ${{ steps.resolve-version.outputs.version }}"
       - name: Create Branch
         run: |
           git switch -c release-${{ steps.set_outputs.outputs.version }}
