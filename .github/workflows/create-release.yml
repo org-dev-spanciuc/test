@@ -1,36 +1,32 @@
 name: Create Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release version (eg: 1.0.0)'
-        required: true
-        type: string
-      next-version:
-        description: 'Next version (eg: 1.0.1-SNAPSHOT)'
-        required: false
-        type: string
+  push:
+    branches: [ "main" ]
 
 jobs:
-
   prepare-release:
     name: Prepare Release
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set_outputs.outputs.version }}
     steps:
       - uses: actions/checkout@v3
+      - name: Resolve Version
+        run: |
+          echo "::set-output name=version::1000"
+          echo "resolved version: ${{ steps.set_outputs.outputs.version }}"
       - name: Create Branch
         run: |
-          git switch -c release-${{ inputs.version }}
-          git push -u origin release-${{ inputs.version }}
+          git switch -c release-${{ steps.set_outputs.outputs.version }}
+          git push -u origin release-${{ steps.set_outputs.outputs.version }}
 
   perform-release:
     name: Perform Release
     needs: prepare-release
     uses: ./.github/workflows/perform-release.yml
     with:
-      version: ${{ inputs.version }}
-      next-version: ${{ inputs.next-version }}
+      version: ${{ needs.prepare-release.outputs.version }}
     secrets: inherit
 
   update-docs:
