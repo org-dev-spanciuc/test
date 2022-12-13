@@ -15,8 +15,8 @@ jobs:
       - name: Resolve Version
         id: resolve-version
         run: |
-          echo "::set-output name=version::1000"
-          echo "resolved version: ${{ steps.resolve-version.outputs.version }}"
+          echo "VERSION=1000" >> $GITHUB_OUTPUT
+          echo "resolved version: ${{ steps.resolve-version.outputs.VERSION }}"
       - name: Create Branch
         run: |
           git switch -c release-${{ steps.set_outputs.outputs.version }}
@@ -27,7 +27,7 @@ jobs:
     needs: prepare-release
     uses: ./.github/workflows/perform-release.yml
     with:
-      version: ${{ needs.prepare-release.outputs.version }}
+      version: ${{ needs.resolve-version.outputs.version }}
     secrets: inherit
 
   update-docs:
