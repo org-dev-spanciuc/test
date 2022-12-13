@@ -15,10 +15,12 @@ jobs:
       - name: Resolve Version
         id: resolve-version
         run: |
-          echo "VERSION=1000" >> $GITHUB_OUTPUT
-          echo "resolved version: ${{ steps.resolve-version.outputs.VERSION }}"
+          export VERSION=1000
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
       - name: Create Branch
         run: |
+          echo "IN STEP: ${VERSION}"
+          echo "resolved version: ${{ steps.resolve-version.outputs.version }}"
           git switch -c release-${{ steps.set_outputs.outputs.version }}
           git push -u origin release-${{ steps.set_outputs.outputs.version }}
 
