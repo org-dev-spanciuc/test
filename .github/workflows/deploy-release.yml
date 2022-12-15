@@ -1,27 +1,18 @@
-name: Perform Tag
+name: Deploy Release
 
 on:
-  workflow_call:
-    inputs:
-      version:
-        description: 'Tag version (eg: 1.0.0)'
-        required: true
-        type: string
-      next-version:
-        description: 'Next version (eg: 1.0.1-SNAPSHOT)'
-        required: false
-        type: string
+  release:
+    types: [published]
 
 jobs:
-  tag:
-    name: Tag
+  deploy-release:
+    name: Deploy
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      packages: write
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: tag-${{ inputs.version }}
+      - run: echo "${{  github.ref_name }}"
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -40,6 +31,10 @@ jobs:
       - name: Maven Release Prepare
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          mvn -B release:prepare -DreleaseVersion='${{ inputs.version }}' \
-          -DdevelopmentVersion='${{ inputs.next-version }}'
+        run: mvn -B deploy site site:stage scm-publish:publish-scm
+
+  update-docs:
+    name: Update Documentation
+    needs: deploy-release
+    uses: ./.github/workflows/update-documentation.yml
+            
