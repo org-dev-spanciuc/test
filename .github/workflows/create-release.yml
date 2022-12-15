@@ -18,6 +18,10 @@ jobs:
           version=$(mvn help:evaluate -Dexpression='project.version' -q -DforceStdout)
           export VERSION=${version:0:${#version} - 9}
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
+      - name: A/B Check
+        run: |
+          echo "version: ${version}"
+          echo "VERSION: ${VERSION}"
       - name: Create Branch
         run: |
           git switch -c release-${{ steps.resolve-version.outputs.version }}
