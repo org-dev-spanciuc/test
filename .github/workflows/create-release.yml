@@ -20,8 +20,8 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
       - name: A/B Check
         run: |
-          echo "version: ${version}"
-          echo "VERSION: ${VERSION}"
+          echo "version: ${{ version }}"
+          echo "VERSION: ${{ VERSION }}"
       - name: Create Branch
         run: |
           git switch -c release-${{ steps.resolve-version.outputs.version }}
