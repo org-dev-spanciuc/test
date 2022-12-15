@@ -21,6 +21,7 @@ jobs:
             echo "matching"
           else
             echo "not matching"
+          fi
           export VERSION=${version:0:${#version} - 9}
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
       - name: Create Branch
