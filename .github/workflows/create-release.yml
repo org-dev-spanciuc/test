@@ -16,7 +16,8 @@ jobs:
         id: resolve-version
         run: |
           version=$(mvn help:evaluate -Dexpression='project.version' -q -DforceStdout)
-          if [[ "${version}" =~ /^[0-9]+(\.[0-9]+)*-SNAPSHOT$/gm ]];
+          echo "${version}"
+          if [[ "${version}" =~ /^[0-9]+(\.[0-9]+)*-SNAPSHOT$ ]];
           then
             echo "matching"
           else
