@@ -18,7 +18,7 @@ jobs:
           version=$(mvn help:evaluate -Dexpression='project.version' -q -DforceStdout)
           if ! [[ "${version}" =~ ^[0-9]+(\.[0-9]+)*-SNAPSHOT$ ]];
           then
-            echo "Expected "*-SNAPSHOT" version, but found: ${version}"
+            echo "Expected valid "*-SNAPSHOT" version, but found: ${version}"
             exit 1
           fi
           echo "version=${version:0:${#version} - 9}" >> $GITHUB_OUTPUT
