@@ -47,4 +47,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mvn -B release:prepare -DreleaseVersion='${{ inputs.version }}' \
-          -DdevelopmentVersion='${{ inputs.next-version }}' release:perform
+          -DdevelopmentVersion='${{ inputs.next-version }}'
