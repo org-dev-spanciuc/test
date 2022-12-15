@@ -1,12 +1,12 @@
-name: Create Release
+name: Create Tag
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  prepare-release:
-    name: Prepare Release
+  prepare-tag:
+    name: Prepare Tag
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.resolve-version.outputs.version }}
@@ -24,19 +24,14 @@ jobs:
           echo "version=${version:0:${#version} - 9}" >> $GITHUB_OUTPUT
       - name: Create Branch
         run: |
-          git switch -c release-${{ steps.resolve-version.outputs.version }}
-          git push -u origin release-${{ steps.resolve-version.outputs.version }}
+          git switch -c tag-${{ steps.resolve-version.outputs.version }}
+          git push -u origin tag-${{ steps.resolve-version.outputs.version }}
 
-  perform-release:
-    name: Perform Release
-    needs: prepare-release
-    uses: ./.github/workflows/perform-release.yml
+  perform-tag:
+    name: Perform Tag
+    needs: prepare-tag
+    uses: ./.github/workflows/perform-tag.yml
     with:
-      version: ${{ needs.prepare-release.outputs.version }}
+      version: ${{ needs.prepare-tag.outputs.version }}
     secrets: inherit
-
-  update-docs:
-    name: Update Documentation
-    needs: perform-release
-    uses: ./.github/workflows/update-documentation.yml
             

@@ -1,10 +1,10 @@
-name: Perform Release
+name: Perform Tag
 
 on:
   workflow_call:
     inputs:
       version:
-        description: 'Release version (eg: 1.0.0)'
+        description: 'Tag version (eg: 1.0.0)'
         required: true
         type: string
       next-version:
@@ -13,20 +13,16 @@ on:
         type: string
 
 jobs:
-  release:
-    name: Release
+  tag:
+    name: Tag
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
     steps:
-      - name: Echo version
-        run: |
-          echo "${{ inputs.version }}"
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: release-${{ inputs.version }}
+          ref: tag-${{ inputs.version }}
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -42,7 +38,7 @@ jobs:
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-      - name: Maven Release
+      - name: Maven Release Prepare
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
