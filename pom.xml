@@ -5,7 +5,7 @@
     <groupId>test</groupId>
     <artifactId>test-project</artifactId>
     <packaging>jar</packaging>
-    <version>99999-SNAPSHOT</version>
+    <version>100000-SNAPSHOT</version>
     <name>Test maven project</name>
     <url>https://github.com/org-dev-spanciuc/test.git</url>
     <scm>
